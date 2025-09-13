@@ -10,7 +10,7 @@ const handler = NextAuth({
       async authorize() {
         return {
           id: 'demo-user-id',
-          email: process.env.DEMO_EMAIL || 'demo@example.com',
+          email: process.env.NEXT_PUBLIC_DEMO_EMAIL || 'demo@example.com',
           name: 'Demo User',
           role: 'admin',
         };

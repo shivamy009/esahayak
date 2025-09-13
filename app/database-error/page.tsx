@@ -36,9 +36,9 @@ export default function DatabaseError() {
 {`NEXT_PUBLIC_DATABASE_URL=postgresql://[username]:[password]@[host]:[port]/[database]
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-NEXTAUTH_SECRET=your-secret-key
-NEXTAUTH_URL=http://localhost:3000
-DEMO_EMAIL=demo@example.com`}
+NEXT_PUBLIC_NEXTAUTH_SECRET=your-secret-key
+NEXT_PUBLIC_NEXTAUTH_URL=http://localhost:3000
+NEXT_PUBLIC_DEMO_EMAIL=demo@example.com`}
             </code>
           </div>
         </CardContent>

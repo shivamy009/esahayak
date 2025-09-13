@@ -26,7 +26,7 @@ export function EnvironmentChecker() {
     } catch (error) {
       setEnvStatus({
         configured: false,
-        missing: ['NEXT_PUBLIC_DATABASE_URL', 'NEXTAUTH_SECRET'],
+        missing: ['NEXT_PUBLIC_DATABASE_URL', 'NEXT_PUBLIC_NEXTAUTH_SECRET'],
       });
     }
   };
@@ -38,11 +38,11 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 # Auth
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your_nextauth_secret_key
+NEXT_PUBLIC_NEXTAUTH_URL=http://localhost:3000
+NEXT_PUBLIC_NEXTAUTH_SECRET=your_NEXT_PUBLIC_NEXTAUTH_SECRET_key
 
 # Demo login
-DEMO_EMAIL=demo@example.com`;
+NEXT_PUBLIC_DEMO_EMAIL=demo@example.com`;
 
     navigator.clipboard.writeText(template);
     setCopied(true);
@@ -101,7 +101,7 @@ DEMO_EMAIL=demo@example.com`;
           <ol className="text-sm text-yellow-700 space-y-1 list-decimal list-inside">
             <li>Copy the environment template below to your <code className="bg-yellow-100 px-1 rounded">.env</code> file</li>
             <li>Replace placeholder values with your actual Supabase credentials</li>
-            <li>Generate a random secret for NEXTAUTH_SECRET: <code className="bg-yellow-100 px-1 rounded">node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"</code></li>
+            <li>Generate a random secret for NEXT_PUBLIC_NEXTAUTH_SECRET: <code className="bg-yellow-100 px-1 rounded">node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"</code></li>
             <li>Run <code className="bg-yellow-100 px-1 rounded">npm run db:push</code></li>
             <li>Restart the development server</li>
           </ol>
@@ -127,11 +127,11 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 # Auth
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your_nextauth_secret_key
+NEXT_PUBLIC_NEXTAUTH_URL=http://localhost:3000
+NEXT_PUBLIC_NEXTAUTH_SECRET=your_NEXT_PUBLIC_NEXTAUTH_SECRET_key
 
 # Demo login
-DEMO_EMAIL=demo@example.com`}
+NEXT_PUBLIC_DEMO_EMAIL=demo@example.com`}
           </pre>
         </div>
 

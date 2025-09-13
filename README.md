@@ -48,11 +48,11 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 # Auth
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your_nextauth_secret_key
+NEXT_PUBLIC_NEXTAUTH_URL=http://localhost:3000
+NEXT_PUBLIC_NEXTAUTH_SECRET=your_NEXT_PUBLIC_NEXTAUTH_SECRET_key
 
 # Demo login
-DEMO_EMAIL=demo@example.com
+NEXT_PUBLIC_DEMO_EMAIL=demo@example.com
 ```
 
 ### 2. Database Setup
@@ -202,8 +202,8 @@ npm run start        # Start production server
    - Check if you've run `npm run db:push`
 
 2. **Authentication Issues**
-   - Verify `NEXTAUTH_SECRET` is set
-   - Check `NEXTAUTH_URL` matches your domain
+   - Verify `NEXT_PUBLIC_NEXTAUTH_SECRET` is set
+   - Check `NEXT_PUBLIC_NEXTAUTH_URL` matches your domain
    - For magic links, ensure email provider is configured
 
 3. **Import/Export Issues**
