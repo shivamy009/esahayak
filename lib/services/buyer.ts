@@ -7,7 +7,7 @@ export class BuyerService {
   static async createBuyer(data: Omit<NewBuyer, 'id' | 'createdAt' | 'updatedAt' | 'ownerId'>, userId: string) {
     try {
       // Return mock data if database is not configured
-      if (!process.env.NEXT_PUBLIC_DATABASE_URL || process.env.NEXT_PUBLIC_DATABASE_URL.includes('[YOUR-PASSWORD]')) {
+      if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('[YOUR-PASSWORD]')) {
         return {
           id: 'demo-buyer-' + Date.now(),
           ...data,
@@ -36,14 +36,14 @@ export class BuyerService {
 
   static async getBuyers(filters: BuyerFilters, userId?: string) {
     try {
-      console.log('getBuyers called with:', { filters, userId, hasDbUrl: !!process.env.NEXT_PUBLIC_DATABASE_URL });
+      console.log('getBuyers called with:', { filters, userId, hasDbUrl: !!process.env.DATABASE_URL });
       
       const page = filters.page || 1;
       const pageSize = 10;
       const offset = (page - 1) * pageSize;
 
       // Return mock data if database is not configured
-      if (!process.env.NEXT_PUBLIC_DATABASE_URL || process.env.NEXT_PUBLIC_DATABASE_URL.includes('[YOUR-PASSWORD]')) {
+      if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('[YOUR-PASSWORD]')) {
         console.log('Using mock data - database not configured');
         return {
           buyers: [{

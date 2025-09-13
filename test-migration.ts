@@ -3,7 +3,7 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { buyers } from './lib/db/schema';
 
-const connectionString = process.env.NEXT_PUBLIC_DATABASE_URL!;
+const connectionString = process.env.DATABASE_URL!;
 
 async function testMigration() {
   const client = postgres(connectionString);

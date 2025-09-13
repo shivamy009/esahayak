@@ -34,14 +34,14 @@ export async function GET(request: NextRequest) {
       name: error.name,
       cause: error.cause,
       envVars: {
-        hasDbUrl: !!process.env.NEXT_PUBLIC_DATABASE_URL,
+        hasDbUrl: !!process.env.DATABASE_URL,
         hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
         hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET,
         nodeEnv: process.env.NODE_ENV
       }
     });
     
-    if (error.message?.includes('NEXT_PUBLIC_DATABASE_URL')) {
+    if (error.message?.includes('DATABASE_URL')) {
       return NextResponse.json({ 
         error: 'Database not configured. Please check your environment variables.',
         details: error.message
@@ -53,8 +53,8 @@ export async function GET(request: NextRequest) {
       details: error.message,
       stack: error.stack?.split('\n').slice(0, 5).join('\n'),
       envCheck: {
-        hasDbUrl: !!process.env.NEXT_PUBLIC_DATABASE_URL,
-        dbUrlStart: process.env.NEXT_PUBLIC_DATABASE_URL?.substring(0, 30),
+        hasDbUrl: !!process.env.DATABASE_URL,
+        dbUrlStart: process.env.DATABASE_URL?.substring(0, 30),
         nodeEnv: process.env.NODE_ENV,
         timestamp: new Date().toISOString()
       }
@@ -85,14 +85,14 @@ export async function POST(request: NextRequest) {
       name: error.name,
       cause: error.cause,
       envVars: {
-        hasDbUrl: !!process.env.NEXT_PUBLIC_DATABASE_URL,
+        hasDbUrl: !!process.env.DATABASE_URL,
         hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
         hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET,
         nodeEnv: process.env.NODE_ENV
       }
     });
     
-    if (error.message?.includes('NEXT_PUBLIC_DATABASE_URL')) {
+    if (error.message?.includes('DATABASE_URL')) {
       return NextResponse.json({ 
         error: 'Database not configured. Please check your environment variables.',
         details: error.message
@@ -108,8 +108,8 @@ export async function POST(request: NextRequest) {
       details: error.message,
       stack: error.stack?.split('\n').slice(0, 5).join('\n'),
       envCheck: {
-        hasDbUrl: !!process.env.NEXT_PUBLIC_DATABASE_URL,
-        dbUrlStart: process.env.NEXT_PUBLIC_DATABASE_URL?.substring(0, 30),
+        hasDbUrl: !!process.env.DATABASE_URL,
+        dbUrlStart: process.env.DATABASE_URL?.substring(0, 30),
         nodeEnv: process.env.NODE_ENV,
         timestamp: new Date().toISOString()
       }

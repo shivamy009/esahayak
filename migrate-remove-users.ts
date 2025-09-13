@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import postgres from 'postgres';
 
-const connectionString = process.env.NEXT_PUBLIC_DATABASE_URL!;
+const connectionString = process.env.DATABASE_URL!;
 
 async function migrateDatabase() {
   const client = postgres(connectionString);

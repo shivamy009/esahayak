@@ -33,7 +33,7 @@ export default function DatabaseError() {
           <div className="bg-gray-50 p-4 rounded-lg">
             <h4 className="font-medium text-gray-800 mb-2">Required Environment Variables:</h4>
             <code className="text-xs text-gray-600 block whitespace-pre-wrap">
-{`NEXT_PUBLIC_DATABASE_URL=postgresql://[username]:[password]@[host]:[port]/[database]
+{`DATABASE_URL=postgresql://[username]:[password]@[host]:[port]/[database]
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 NEXTAUTH_SECRET=your-secret-key

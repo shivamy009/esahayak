@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   const requiredEnvVars = [
-    'NEXT_PUBLIC_DATABASE_URL',
+    'DATABASE_URL',
     'NEXTAUTH_SECRET',
   ];
 

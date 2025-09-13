@@ -26,14 +26,14 @@ export function EnvironmentChecker() {
     } catch (error) {
       setEnvStatus({
         configured: false,
-        missing: ['NEXT_PUBLIC_DATABASE_URL', 'NEXTAUTH_SECRET'],
+        missing: ['DATABASE_URL', 'NEXTAUTH_SECRET'],
       });
     }
   };
 
   const copyEnvTemplate = () => {
     const template = `# Database
-NEXT_PUBLIC_DATABASE_URL=your_supabase_NEXT_PUBLIC_DATABASE_URL
+DATABASE_URL=your_supabase_DATABASE_URL
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -122,7 +122,7 @@ DEMO_EMAIL=demo@example.com`;
           </div>
           <pre className="text-xs text-gray-600 overflow-x-auto">
 {`# Database
-NEXT_PUBLIC_DATABASE_URL=your_supabase_NEXT_PUBLIC_DATABASE_URL
+DATABASE_URL=your_supabase_DATABASE_URL
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -140,7 +140,7 @@ DEMO_EMAIL=demo@example.com`}
           <ol className="text-sm text-blue-700 space-y-1 list-decimal list-inside">
             <li>Go to <a href="https://supabase.com" className="underline" target="_blank" rel="noopener noreferrer">supabase.com</a> and create an account</li>
             <li>Create a new project</li>
-            <li>Go to Settings → Database → Connection string (URI format) for NEXT_PUBLIC_DATABASE_URL</li>
+            <li>Go to Settings → Database → Connection string (URI format) for DATABASE_URL</li>
             <li>Go to Settings → API for NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY</li>
           </ol>
         </div>
