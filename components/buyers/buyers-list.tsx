@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,13 +22,21 @@ interface BuyersResponse {
   currentPage: number;
 }
 
-export function BuyersList() {
+export interface BuyersListRef {
+  refresh: () => void;
+}
+
+export const BuyersList = forwardRef<BuyersListRef, {}>((props, ref) => {
   const searchParams = useSearchParams();
   const [data, setData] = useState<BuyersResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editBuyer, setEditBuyer] = useState<BuyerWithOwner | null>(null);
   const [deleteBuyer, setDeleteBuyer] = useState<BuyerWithOwner | null>(null);
+
+  useImperativeHandle(ref, () => ({
+    refresh: fetchBuyers
+  }));
 
   const fetchBuyers = async () => {
     setLoading(true);
@@ -315,4 +323,6 @@ export function BuyersList() {
       )}
     </>
   );
-}
+});
+
+BuyersList.displayName = 'BuyersList';

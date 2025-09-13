@@ -2,8 +2,8 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { BuyersList } from '@/components/buyers/buyers-list';
+import { useEffect, useState, useRef } from 'react';
+import { BuyersList, type BuyersListRef } from '@/components/buyers/buyers-list';
 import { BuyersFilters } from '@/components/buyers/buyers-filters';
 import { ImportExportActions } from '@/components/buyers/import-export-actions';
 import { QuickAddForm } from '@/components/buyers/quick-add-form';
@@ -14,6 +14,7 @@ import Link from 'next/link';
 export default function BuyersPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const buyersListRef = useRef<BuyersListRef>(null);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -45,7 +46,7 @@ export default function BuyersPage() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3">
-              <ImportExportActions />
+              <ImportExportActions onImportSuccess={() => buyersListRef.current?.refresh()} />
               <Link href="/buyers/new">
                 <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md">
                   <Plus className="w-4 h-4 mr-2" />
@@ -58,13 +59,13 @@ export default function BuyersPage() {
 
         <div className="space-y-6">
           {/* Quick Add Form */}
-          <QuickAddForm onSuccess={() => window.location.reload()} />
+          <QuickAddForm onSuccess={() => buyersListRef.current?.refresh()} />
           
           {/* Filters */}
           <BuyersFilters />
           
           {/* Buyers List */}
-          <BuyersList />
+          <BuyersList ref={buyersListRef} />
         </div>
       </div>
     </div>

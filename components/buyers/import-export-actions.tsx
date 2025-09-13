@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Upload, Download, FileText, AlertCircle, CheckCircle } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface CsvError {
   row: number;
@@ -23,7 +24,11 @@ interface ImportResult {
   createdBuyers?: any[];
 }
 
-export function ImportExportActions() {
+interface ImportExportActionsProps {
+  onImportSuccess?: () => void;
+}
+
+export function ImportExportActions({ onImportSuccess }: ImportExportActionsProps) {
   const searchParams = useSearchParams();
   const [importStatus, setImportStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
   const [importResult, setImportResult] = useState<ImportResult | null>(null);
@@ -50,9 +55,15 @@ export function ImportExportActions() {
       if (response.ok) {
         setImportStatus('success');
         setImportResult(result);
+        toast.success(`Successfully imported ${result.createdCount} buyers!`);
+        // Call the callback to refresh the buyers list
+        if (onImportSuccess) {
+          onImportSuccess();
+        }
       } else {
         setImportStatus('error');
         setImportResult(result);
+        toast.error('Import failed. Please check the errors and try again.');
       }
     } catch (error) {
       setImportStatus('error');
@@ -63,6 +74,7 @@ export function ImportExportActions() {
         errorCount: 1,
         errors: [{ row: 0, message: 'Upload failed. Please try again.', data: {} }],
       });
+      toast.error('Upload failed. Please try again.');
     }
 
     // Reset file input
@@ -85,11 +97,12 @@ export function ImportExportActions() {
         a.click();
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
+        toast.success('Buyers exported successfully!');
       } else {
-        alert('Export failed. Please try again.');
+        toast.error('Export failed. Please try again.');
       }
     } catch (error) {
-      alert('Export failed. Please try again.');
+      toast.error('Export failed. Please try again.');
     } finally {
       setExportLoading(false);
     }
