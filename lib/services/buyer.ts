@@ -65,7 +65,6 @@ export class BuyerService {
             ownerId: 'demo-user-id',
             createdAt: new Date(),
             updatedAt: new Date(),
-            ownerName: 'Demo User'
           }],
           totalCount: 1,
           totalPages: 1,
@@ -121,7 +120,6 @@ export class BuyerService {
       ownerId: buyers.ownerId,
       createdAt: buyers.createdAt,
       updatedAt: buyers.updatedAt,
-      ownerName: buyers.ownerId, // Use ownerId as ownerName for now
     }).from(buyers)
       .where(conditions.length > 0 ? and(...conditions) : undefined);
 
