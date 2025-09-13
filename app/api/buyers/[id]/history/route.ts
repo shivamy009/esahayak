@@ -4,15 +4,16 @@ import { BuyerService } from '@/lib/services/buyer';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const history = await BuyerService.getBuyerHistory(params.id);
+    const history = await BuyerService.getBuyerHistory(id);
     return NextResponse.json(history);
   } catch (error) {
     console.error('Error fetching buyer history:', error);
