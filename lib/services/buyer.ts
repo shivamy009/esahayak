@@ -214,14 +214,6 @@ export class BuyerService {
   static async getBuyerHistory(buyerId: string, limit = 5) {
     const history = await db.query.buyerHistory.findMany({
       where: eq(buyerHistory.buyerId, buyerId),
-      with: {
-        changedByUser: {
-          columns: {
-            name: true,
-            email: true,
-          },
-        },
-      },
       orderBy: desc(buyerHistory.changedAt),
       limit,
     });
