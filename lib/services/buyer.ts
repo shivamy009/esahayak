@@ -128,15 +128,26 @@ export class BuyerService {
                      filters.sortBy === 'createdAt' ? buyers.createdAt : buyers.updatedAt;
     const sortOrder = filters.sortOrder === 'asc' ? asc(sortField) : desc(sortField);
 
-    const results = await query
-      .orderBy(sortOrder)
-      .limit(pageSize)
-      .offset(offset);
+    // Execute query with explicit parameter handling
+    let results;
+    let totalCountResult;
+    
+    try {
+      results = await query
+        .orderBy(sortOrder)
+        .limit(Number(pageSize))
+        .offset(Number(offset));
 
-    // Get total count
-    const [{ totalCount }] = await db.select({ totalCount: count() })
-      .from(buyers)
-      .where(conditions.length > 0 ? and(...conditions) : undefined);
+      // Get total count
+      totalCountResult = await db.select({ totalCount: count() })
+        .from(buyers)
+        .where(conditions.length > 0 ? and(...conditions) : undefined);
+    } catch (error: any) {
+      console.error('Query execution error:', error);
+      throw new Error(`Database query failed: ${error.message}`);
+    }
+
+    const [{ totalCount }] = totalCountResult;
 
     return {
       buyers: results,
