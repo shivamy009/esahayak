@@ -50,7 +50,14 @@ export async function GET(request: NextRequest) {
     
     return NextResponse.json({ 
       error: 'Internal server error',
-      details: process.env.NODE_ENV === 'development' ? error.message : 'Please check server logs'
+      details: error.message,
+      stack: error.stack?.split('\n').slice(0, 5).join('\n'),
+      envCheck: {
+        hasDbUrl: !!process.env.NEXT_PUBLIC_DATABASE_URL,
+        dbUrlStart: process.env.NEXT_PUBLIC_DATABASE_URL?.substring(0, 30),
+        nodeEnv: process.env.NODE_ENV,
+        timestamp: new Date().toISOString()
+      }
     }, { status: 500 });
   }
 }
@@ -98,7 +105,14 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json({ 
       error: 'Internal server error',
-      details: process.env.NODE_ENV === 'development' ? error.message : 'Please check server logs'
+      details: error.message,
+      stack: error.stack?.split('\n').slice(0, 5).join('\n'),
+      envCheck: {
+        hasDbUrl: !!process.env.NEXT_PUBLIC_DATABASE_URL,
+        dbUrlStart: process.env.NEXT_PUBLIC_DATABASE_URL?.substring(0, 30),
+        nodeEnv: process.env.NODE_ENV,
+        timestamp: new Date().toISOString()
+      }
     }, { status: 500 });
   }
 }
