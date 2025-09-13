@@ -6,7 +6,7 @@ let db: any;
 let isDbConfigured: () => boolean;
 
 if (!process.env.NEXT_PUBLIC_DATABASE_URL || 
-    process.env.NEXT_PUBLIC_DATABASE_URL === 'your_supabase_NEXT_PUBLIC_DATABASE_URL' || 
+    process.env.NEXT_PUBLIC_DATABASE_URL === 'your_supabase_database_url' || 
     process.env.NEXT_PUBLIC_DATABASE_URL.includes('[YOUR-PASSWORD]')) {
   
   console.warn('NEXT_PUBLIC_DATABASE_URL is not properly configured. Using mock database for demo purposes.');
@@ -60,9 +60,16 @@ if (!process.env.NEXT_PUBLIC_DATABASE_URL ||
   
   isDbConfigured = () => false;
 } else {
-  const client = postgres(process.env.NEXT_PUBLIC_DATABASE_URL);
-  db = drizzle(client, { schema });
-  isDbConfigured = () => true;
+  try {
+    console.log('Initializing database connection with URL:', process.env.NEXT_PUBLIC_DATABASE_URL?.substring(0, 30) + '...');
+    const client = postgres(process.env.NEXT_PUBLIC_DATABASE_URL!);
+    db = drizzle(client, { schema });
+    isDbConfigured = () => true;
+    console.log('Database connection initialized successfully');
+  } catch (error) {
+    console.error('Failed to initialize database connection:', error);
+    throw error;
+  }
 }
 
 export { db, isDbConfigured };

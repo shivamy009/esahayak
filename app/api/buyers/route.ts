@@ -28,15 +28,30 @@ export async function GET(request: NextRequest) {
     const result = await BuyerService.getBuyers(filters, userId);
     return NextResponse.json(result);
   } catch (error: any) {
-    console.error('Error fetching buyers:', error);
+    console.error('Error fetching buyers:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      cause: error.cause,
+      envVars: {
+        hasDbUrl: !!process.env.NEXT_PUBLIC_DATABASE_URL,
+        hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+        hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET,
+        nodeEnv: process.env.NODE_ENV
+      }
+    });
     
     if (error.message?.includes('NEXT_PUBLIC_DATABASE_URL')) {
       return NextResponse.json({ 
-        error: 'Database not configured. Please check your environment variables.' 
+        error: 'Database not configured. Please check your environment variables.',
+        details: error.message
       }, { status: 503 });
     }
     
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ 
+      error: 'Internal server error',
+      details: process.env.NODE_ENV === 'development' ? error.message : 'Please check server logs'
+    }, { status: 500 });
   }
 }
 
@@ -57,11 +72,23 @@ export async function POST(request: NextRequest) {
     const buyer = await BuyerService.createBuyer(validatedData, userId);
     return NextResponse.json(buyer, { status: 201 });
   } catch (error: any) {
-    console.error('Error creating buyer:', error);
+    console.error('Error creating buyer:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      cause: error.cause,
+      envVars: {
+        hasDbUrl: !!process.env.NEXT_PUBLIC_DATABASE_URL,
+        hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+        hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET,
+        nodeEnv: process.env.NODE_ENV
+      }
+    });
     
     if (error.message?.includes('NEXT_PUBLIC_DATABASE_URL')) {
       return NextResponse.json({ 
-        error: 'Database not configured. Please check your environment variables.' 
+        error: 'Database not configured. Please check your environment variables.',
+        details: error.message
       }, { status: 503 });
     }
     
@@ -69,6 +96,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Validation error', details: error.errors }, { status: 400 });
     }
     
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ 
+      error: 'Internal server error',
+      details: process.env.NODE_ENV === 'development' ? error.message : 'Please check server logs'
+    }, { status: 500 });
   }
 }
