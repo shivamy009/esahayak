@@ -33,7 +33,7 @@ export const buyerSchema = z.object({
   }
   return true;
 }, {
-  message: 'BHK is required for Apartment and Villa',
+  message: 'BHK is required for Apartment and Villa properties',
   path: ['bhk'],
 }).refine((data) => {
   // Budget validation
@@ -88,7 +88,7 @@ export const buyerFilterSchema = z.object({
   propertyType: propertyTypeEnum.optional(),
   status: statusEnum.optional(),
   timeline: timelineEnum.optional(),
-  page: z.string().transform((val) => parseInt(val) || 1).pipe(z.number().int().positive().default(1)),
+  page: z.coerce.number().int().positive().default(1),
   sortBy: z.enum(['updatedAt', 'createdAt', 'fullName']).default('updatedAt'),
   sortOrder: z.enum(['asc', 'desc']).default('desc'),
 });

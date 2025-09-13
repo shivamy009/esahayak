@@ -248,7 +248,7 @@ export class BuyerService {
   }
 
   static async createBuyersFromCsv(buyersData: Omit<NewBuyer, 'id' | 'createdAt' | 'updatedAt' | 'ownerId'>[], userId: string) {
-    return await db.transaction(async (tx) => {
+    return await db.transaction(async (tx: any) => {
       const createdBuyers = [];
       
       for (const buyerData of buyersData) {

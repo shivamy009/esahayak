@@ -131,74 +131,95 @@ export function BuyerForm({ initialData, buyerId, mode = 'create' }: BuyerFormPr
   const requiresBhk = ['Apartment', 'Villa'].includes(formData.propertyType);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Card>
-        <CardHeader>
-          <div className="flex items-center gap-4">
-            <Link href="/buyers">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Buyers
-              </Button>
-            </Link>
-            <CardTitle>
-              {mode === 'edit' ? 'Edit Buyer' : 'Create New Buyer'}
-            </CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Basic Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Navigation */}
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+        <Link href="/buyers">
+          <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Buyers
+          </Button>
+        </Link>
+      </div>
+
+      {/* Basic Information Card */}
+      <Card className="shadow-xl border-0 overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+          <CardTitle className="flex items-center gap-3 text-white">
+            <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30">
+              <ArrowLeft className="w-5 h-5 text-white" />
+            </div>
             <div>
-              <label className="block text-sm font-medium mb-1">
+              <h3 className="text-xl font-bold">Personal Information</h3>
+              <p className="text-blue-100 text-sm mt-1">Basic details about the buyer</p>
+            </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-8 bg-gradient-to-br from-white to-blue-50">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
                 Full Name <span className="text-red-500">*</span>
               </label>
               <Input
                 value={formData.fullName}
                 onChange={(e) => handleChange('fullName', e.target.value)}
-                placeholder="Enter full name"
+                placeholder="Enter buyer's full name"
+                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 py-3"
                 required
               />
               {errors.fullName && (
-                <p className="text-sm text-red-600 mt-1">{errors.fullName}</p>
+                <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                  <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                  {errors.fullName}
+                </p>
               )}
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
-              <Input
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleChange('email', e.target.value)}
-                placeholder="Enter email address"
-              />
-              {errors.email && (
-                <p className="text-sm text-red-600 mt-1">{errors.email}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Phone <span className="text-red-500">*</span>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
+                Phone Number <span className="text-red-500">*</span>
               </label>
               <Input
                 value={formData.phone}
                 onChange={(e) => handleChange('phone', e.target.value)}
-                placeholder="Enter phone number (10-15 digits)"
+                placeholder="Enter 10-15 digit phone number"
+                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 py-3"
                 required
               />
               {errors.phone && (
-                <p className="text-sm text-red-600 mt-1">{errors.phone}</p>
+                <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                  <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                  {errors.phone}
+                </p>
               )}
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">
+            <div className="space-y-2 md:col-span-2">
+              <label className="block text-sm font-semibold text-gray-700">Email Address</label>
+              <Input
+                type="email"
+                value={formData.email}
+                onChange={(e) => handleChange('email', e.target.value)}
+                placeholder="Enter email address (optional)"
+                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 py-3"
+              />
+              {errors.email && (
+                <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                  <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                  {errors.email}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
                 City <span className="text-red-500">*</span>
               </label>
               <Select
                 value={formData.city}
                 onChange={(e) => handleChange('city', e.target.value)}
+                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 py-3"
                 required
               >
                 <option value="Chandigarh">Chandigarh</option>
@@ -208,20 +229,40 @@ export function BuyerForm({ initialData, buyerId, mode = 'create' }: BuyerFormPr
                 <option value="Other">Other</option>
               </Select>
               {errors.city && (
-                <p className="text-sm text-red-600 mt-1">{errors.city}</p>
+                <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                  <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                  {errors.city}
+                </p>
               )}
             </div>
           </div>
+        </CardContent>
+      </Card>
 
-          {/* Property Information */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Property Requirements Card */}
+      <Card className="shadow-xl border-0 overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-green-600 to-emerald-600 text-white">
+          <CardTitle className="flex items-center gap-3 text-white">
+            <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30">
+              <Save className="w-5 h-5 text-white" />
+            </div>
             <div>
-              <label className="block text-sm font-medium mb-1">
+              <h3 className="text-xl font-bold">Property Requirements</h3>
+              <p className="text-green-100 text-sm mt-1">Buyer's property preferences and requirements</p>
+            </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-8 bg-gradient-to-br from-white to-green-50">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
                 Property Type <span className="text-red-500">*</span>
               </label>
               <Select
                 value={formData.propertyType}
                 onChange={(e) => handleChange('propertyType', e.target.value)}
+                className="border-gray-300 focus:border-green-500 focus:ring-green-500 py-3"
                 required
               >
                 <option value="Apartment">Apartment</option>
@@ -235,13 +276,14 @@ export function BuyerForm({ initialData, buyerId, mode = 'create' }: BuyerFormPr
               )}
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                BHK {requiresBhk && <span className="text-red-500">*</span>}
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
+                BHK Configuration {requiresBhk && <span className="text-red-500">*</span>}
               </label>
               <Select
                 value={formData.bhk || ''}
                 onChange={(e) => handleChange('bhk', e.target.value || undefined)}
+                className={`border-gray-300 focus:border-green-500 focus:ring-green-500 py-3 ${!requiresBhk ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                 required={requiresBhk}
                 disabled={!requiresBhk}
               >
@@ -253,103 +295,150 @@ export function BuyerForm({ initialData, buyerId, mode = 'create' }: BuyerFormPr
                 <option value="4">4 BHK</option>
               </Select>
               {errors.bhk && (
-                <p className="text-sm text-red-600 mt-1">{errors.bhk}</p>
+                <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                  <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                  {errors.bhk}
+                </p>
               )}
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
                 Purpose <span className="text-red-500">*</span>
               </label>
               <Select
                 value={formData.purpose}
                 onChange={(e) => handleChange('purpose', e.target.value)}
+                className="border-gray-300 focus:border-green-500 focus:ring-green-500 py-3"
                 required
               >
                 <option value="Buy">Buy</option>
                 <option value="Rent">Rent</option>
               </Select>
               {errors.purpose && (
-                <p className="text-sm text-red-600 mt-1">{errors.purpose}</p>
+                <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                  <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                  {errors.purpose}
+                </p>
               )}
             </div>
           </div>
 
           {/* Budget Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Budget Min (₹)</label>
-              <Input
-                type="number"
-                value={formData.budgetMin || ''}
-                onChange={(e) => handleChange('budgetMin', e.target.value ? parseInt(e.target.value) : undefined)}
-                placeholder="Minimum budget"
-              />
-              {errors.budgetMin && (
-                <p className="text-sm text-red-600 mt-1">{errors.budgetMin}</p>
-              )}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 pb-2 border-b border-green-200">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <h4 className="text-lg font-semibold text-gray-800">Budget Range</h4>
             </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Minimum Budget (₹)</label>
+                <Input
+                  type="number"
+                  value={formData.budgetMin || ''}
+                  onChange={(e) => handleChange('budgetMin', e.target.value ? parseInt(e.target.value) : undefined)}
+                  placeholder="e.g., 5000000"
+                  className="border-gray-300 focus:border-green-500 focus:ring-green-500 py-3"
+                />
+                {errors.budgetMin && (
+                  <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                    <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                    {errors.budgetMin}
+                  </p>
+                )}
+              </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Budget Max (₹)</label>
-              <Input
-                type="number"
-                value={formData.budgetMax || ''}
-                onChange={(e) => handleChange('budgetMax', e.target.value ? parseInt(e.target.value) : undefined)}
-                placeholder="Maximum budget"
-              />
-              {errors.budgetMax && (
-                <p className="text-sm text-red-600 mt-1">{errors.budgetMax}</p>
-              )}
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Maximum Budget (₹)</label>
+                <Input
+                  type="number"
+                  value={formData.budgetMax || ''}
+                  onChange={(e) => handleChange('budgetMax', e.target.value ? parseInt(e.target.value) : undefined)}
+                  placeholder="e.g., 7000000"
+                  className="border-gray-300 focus:border-green-500 focus:ring-green-500 py-3"
+                />
+                {errors.budgetMax && (
+                  <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                    <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                    {errors.budgetMax}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
+        </CardContent>
+      </Card>
 
-          {/* Additional Information */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Additional Information Card */}
+      <Card className="shadow-xl border-0 overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+          <CardTitle className="flex items-center gap-3 text-white">
+            <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30">
+              <Save className="w-5 h-5 text-white" />
+            </div>
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Timeline <span className="text-red-500">*</span>
+              <h3 className="text-xl font-bold">Additional Information</h3>
+              <p className="text-purple-100 text-sm mt-1">Timeline, source, and other details</p>
+            </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-8 bg-gradient-to-br from-white to-purple-50">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
+                Purchase Timeline <span className="text-red-500">*</span>
               </label>
               <Select
                 value={formData.timeline}
                 onChange={(e) => handleChange('timeline', e.target.value)}
+                className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 py-3"
                 required
               >
                 <option value="0-3m">0-3 months</option>
                 <option value="3-6m">3-6 months</option>
                 <option value=">6m">&gt;6 months</option>
-                <option value="Exploring">Exploring</option>
+                <option value="Exploring">Just Exploring</option>
               </Select>
               {errors.timeline && (
-                <p className="text-sm text-red-600 mt-1">{errors.timeline}</p>
+                <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                  <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                  {errors.timeline}
+                </p>
               )}
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Source <span className="text-red-500">*</span>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
+                Lead Source <span className="text-red-500">*</span>
               </label>
               <Select
                 value={formData.source}
                 onChange={(e) => handleChange('source', e.target.value)}
+                className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 py-3"
                 required
               >
                 <option value="Website">Website</option>
                 <option value="Referral">Referral</option>
                 <option value="Walk-in">Walk-in</option>
-                <option value="Call">Call</option>
+                <option value="Call">Phone Call</option>
                 <option value="Other">Other</option>
               </Select>
               {errors.source && (
-                <p className="text-sm text-red-600 mt-1">{errors.source}</p>
+                <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                  <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                  {errors.source}
+                </p>
               )}
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Status</label>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">Current Status</label>
               <Select
                 value={formData.status}
                 onChange={(e) => handleChange('status', e.target.value)}
+                className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 py-3"
               >
                 <option value="New">New</option>
                 <option value="Qualified">Qualified</option>
@@ -360,78 +449,125 @@ export function BuyerForm({ initialData, buyerId, mode = 'create' }: BuyerFormPr
                 <option value="Dropped">Dropped</option>
               </Select>
               {errors.status && (
-                <p className="text-sm text-red-600 mt-1">{errors.status}</p>
+                <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                  <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                  {errors.status}
+                </p>
               )}
             </div>
           </div>
 
-          {/* Tags */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Tags</label>
-            <div className="flex gap-2 mb-2">
-              <Input
-                value={newTag}
-                onChange={(e) => setNewTag(e.target.value)}
-                placeholder="Add a tag"
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-              />
-              <Button type="button" onClick={addTag} variant="outline">
-                Add
-              </Button>
+          {/* Tags Section */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 pb-2 border-b border-purple-200">
+              <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+              <h4 className="text-lg font-semibold text-gray-800">Tags & Labels</h4>
             </div>
-            {formData.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {formData.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800"
-                  >
-                    {tag}
-                    <button
-                      type="button"
-                      onClick={() => removeTag(tag)}
-                      className="ml-1 text-blue-600 hover:text-blue-800"
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
+            
+            <div className="space-y-3">
+              <div className="flex gap-3">
+                <Input
+                  value={newTag}
+                  onChange={(e) => setNewTag(e.target.value)}
+                  placeholder="Add a custom tag (e.g., VIP, Urgent, Hot Lead)"
+                  className="flex-1 border-gray-300 focus:border-purple-500 focus:ring-purple-500 py-3"
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                />
+                <Button 
+                  type="button" 
+                  onClick={addTag} 
+                  variant="outline"
+                  className="px-6 border-purple-300 text-purple-700 hover:bg-purple-50"
+                >
+                  Add Tag
+                </Button>
               </div>
-            )}
-          </div>
-
-          {/* Notes */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Notes</label>
-            <Textarea
-              value={formData.notes}
-              onChange={(e) => handleChange('notes', e.target.value)}
-              placeholder="Additional notes (max 1000 characters)"
-              rows={4}
-              maxLength={1000}
-            />
-            <div className="text-xs text-gray-500 mt-1">
-              {(formData.notes || '').length}/1000 characters
+              {formData.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {formData.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-800 border border-purple-200"
+                    >
+                      {tag}
+                      <button
+                        type="button"
+                        onClick={() => removeTag(tag)}
+                        className="ml-2 text-purple-600 hover:text-purple-800 hover:bg-purple-200 rounded-full w-4 h-4 flex items-center justify-center text-xs"
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
-            {errors.notes && (
-              <p className="text-sm text-red-600 mt-1">{errors.notes}</p>
-            )}
           </div>
 
-          {/* Actions */}
-          <div className="flex justify-end gap-4 pt-6 border-t">
-            <Link href="/buyers">
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
-            </Link>
-            <Button type="submit" disabled={loading}>
-              <Save className="w-4 h-4 mr-2" />
-              {loading ? 'Saving...' : mode === 'edit' ? 'Update Buyer' : 'Create Buyer'}
-            </Button>
+          {/* Notes Section */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 pb-2 border-b border-purple-200">
+              <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+              <h4 className="text-lg font-semibold text-gray-800">Additional Notes</h4>
+            </div>
+            
+            <div className="space-y-2">
+              <Textarea
+                value={formData.notes}
+                onChange={(e) => handleChange('notes', e.target.value)}
+                placeholder="Add any additional notes, comments, or special requirements about this buyer..."
+                rows={5}
+                maxLength={1000}
+                className="border-gray-300 focus:border-purple-500 focus:ring-purple-500"
+              />
+              <div className="flex justify-between items-center text-xs text-gray-500">
+                <span>Optional: Additional information about the buyer</span>
+                <span className={`${formData.notes && formData.notes.length > 900 ? 'text-red-500' : ''}`}>
+                  {(formData.notes || '').length}/1000 characters
+                </span>
+              </div>
+              {errors.notes && (
+                <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                  <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                  {errors.notes}
+                </p>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
+
+      {/* Action Buttons */}
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+        <div className="flex justify-end gap-4">
+          <Link href="/buyers">
+            <Button 
+              type="button" 
+              variant="outline"
+              className="px-8 py-3 border-gray-300 text-gray-700 hover:bg-gray-50"
+            >
+              Cancel
+            </Button>
+          </Link>
+          <Button 
+            type="submit" 
+            disabled={loading}
+            className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md hover:shadow-lg transition-all duration-200"
+          >
+            {loading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                {mode === 'edit' ? 'Updating...' : 'Creating...'}
+              </>
+            ) : (
+              <>
+                <Save className="w-4 h-4 mr-2" />
+                {mode === 'edit' ? 'Update Buyer' : 'Create Buyer'}
+              </>
+            )}
+          </Button>
+        </div>
+      </div>
     </form>
   );
 }
