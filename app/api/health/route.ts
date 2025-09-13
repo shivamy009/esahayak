@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   const requiredEnvVars = [
-    'NEXT_PUBLIC_DATABASE_URL',
-    'NEXT_PUBLIC_NEXTAUTH_SECRET',
+    'DATABASE_URL',
+    'NEXTAUTH_SECRET',
   ];
 
   const missing = requiredEnvVars.filter(key => {

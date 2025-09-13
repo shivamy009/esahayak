@@ -43,16 +43,16 @@ Update the `.env` file with your actual values:
 
 ```env
 # Database
-NEXT_PUBLIC_DATABASE_URL=your_supabase_NEXT_PUBLIC_DATABASE_URL
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_NEXT_PUBLIC_SUPABASE_ANON_KEY
+DATABASE_URL=your_supabase_database_url
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
 
 # Auth
-NEXT_PUBLIC_NEXTAUTH_URL=http://localhost:3000
-NEXT_PUBLIC_NEXTAUTH_SECRET=your_NEXT_PUBLIC_NEXTAUTH_SECRET_key
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret_key
 
 # Demo login
-NEXT_PUBLIC_DEMO_EMAIL=demo@example.com
+DEMO_EMAIL=demo@example.com
 ```
 
 ### 2. Database Setup
@@ -86,10 +86,10 @@ The application will be available at `http://localhost:3000`
 1. Go to [supabase.com](https://supabase.com) and create a new account
 2. Create a new project
 3. Go to Settings > Database
-4. Copy the Connection String (URI format) for `NEXT_PUBLIC_DATABASE_URL`
+4. Copy the Connection String (URI format) for `DATABASE_URL`
 5. Go to Settings > API
-6. Copy the Project URL for `NEXT_PUBLIC_SUPABASE_URL`
-7. Copy the anon/public key for `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+6. Copy the Project URL for `SUPABASE_URL`
+7. Copy the anon/public key for `SUPABASE_ANON_KEY`
 
 ## Usage Guide
 
@@ -197,13 +197,13 @@ npm run start        # Start production server
 ### Common Issues
 
 1. **Database Connection Errors**
-   - Verify your `NEXT_PUBLIC_DATABASE_URL` is correct
+   - Verify your `DATABASE_URL` is correct
    - Ensure your Supabase project is active
    - Check if you've run `npm run db:push`
 
 2. **Authentication Issues**
-   - Verify `NEXT_PUBLIC_NEXTAUTH_SECRET` is set
-   - Check `NEXT_PUBLIC_NEXTAUTH_URL` matches your domain
+   - Verify `NEXTAUTH_SECRET` is set
+   - Check `NEXTAUTH_URL` matches your domain
    - For magic links, ensure email provider is configured
 
 3. **Import/Export Issues**

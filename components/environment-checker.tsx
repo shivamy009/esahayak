@@ -26,23 +26,23 @@ export function EnvironmentChecker() {
     } catch (error) {
       setEnvStatus({
         configured: false,
-        missing: ['NEXT_PUBLIC_DATABASE_URL', 'NEXT_PUBLIC_NEXTAUTH_SECRET'],
+        missing: ['DATABASE_URL', 'NEXTAUTH_SECRET'],
       });
     }
   };
 
   const copyEnvTemplate = () => {
     const template = `# Database
-NEXT_PUBLIC_DATABASE_URL=your_supabase_NEXT_PUBLIC_DATABASE_URL
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_NEXT_PUBLIC_SUPABASE_ANON_KEY
+DATABASE_URL=your_supabase_database_url
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
 
 # Auth
-NEXT_PUBLIC_NEXTAUTH_URL=http://localhost:3000
-NEXT_PUBLIC_NEXTAUTH_SECRET=your_NEXT_PUBLIC_NEXTAUTH_SECRET_key
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret_key
 
 # Demo login
-NEXT_PUBLIC_DEMO_EMAIL=demo@example.com`;
+DEMO_EMAIL=demo@example.com`;
 
     navigator.clipboard.writeText(template);
     setCopied(true);
@@ -101,7 +101,7 @@ NEXT_PUBLIC_DEMO_EMAIL=demo@example.com`;
           <ol className="text-sm text-yellow-700 space-y-1 list-decimal list-inside">
             <li>Copy the environment template below to your <code className="bg-yellow-100 px-1 rounded">.env</code> file</li>
             <li>Replace placeholder values with your actual Supabase credentials</li>
-            <li>Generate a random secret for NEXT_PUBLIC_NEXTAUTH_SECRET: <code className="bg-yellow-100 px-1 rounded">node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"</code></li>
+            <li>Generate a random secret for NEXTAUTH_SECRET: <code className="bg-yellow-100 px-1 rounded">node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"</code></li>
             <li>Run <code className="bg-yellow-100 px-1 rounded">npm run db:push</code></li>
             <li>Restart the development server</li>
           </ol>
@@ -122,16 +122,16 @@ NEXT_PUBLIC_DEMO_EMAIL=demo@example.com`;
           </div>
           <pre className="text-xs text-gray-600 overflow-x-auto">
 {`# Database
-NEXT_PUBLIC_DATABASE_URL=your_supabase_NEXT_PUBLIC_DATABASE_URL
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_NEXT_PUBLIC_SUPABASE_ANON_KEY
+DATABASE_URL=your_supabase_database_url
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
 
 # Auth
-NEXT_PUBLIC_NEXTAUTH_URL=http://localhost:3000
-NEXT_PUBLIC_NEXTAUTH_SECRET=your_NEXT_PUBLIC_NEXTAUTH_SECRET_key
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret_key
 
 # Demo login
-NEXT_PUBLIC_DEMO_EMAIL=demo@example.com`}
+DEMO_EMAIL=demo@example.com`}
           </pre>
         </div>
 
@@ -140,8 +140,8 @@ NEXT_PUBLIC_DEMO_EMAIL=demo@example.com`}
           <ol className="text-sm text-blue-700 space-y-1 list-decimal list-inside">
             <li>Go to <a href="https://supabase.com" className="underline" target="_blank" rel="noopener noreferrer">supabase.com</a> and create an account</li>
             <li>Create a new project</li>
-            <li>Go to Settings → Database → Connection string (URI format) for NEXT_PUBLIC_DATABASE_URL</li>
-            <li>Go to Settings → API for NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY</li>
+            <li>Go to Settings → Database → Connection string (URI format) for DATABASE_URL</li>
+            <li>Go to Settings → API for SUPABASE_URL and SUPABASE_ANON_KEY</li>
           </ol>
         </div>
       </CardContent>

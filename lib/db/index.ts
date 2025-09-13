@@ -5,11 +5,11 @@ import * as schema from './schema';
 let db: any;
 let isDbConfigured: () => boolean;
 
-if (!process.env.NEXT_PUBLIC_DATABASE_URL || 
-    process.env.NEXT_PUBLIC_DATABASE_URL === 'your_supabase_NEXT_PUBLIC_DATABASE_URL' || 
-    process.env.NEXT_PUBLIC_DATABASE_URL.includes('[YOUR-PASSWORD]')) {
+if (!process.env.DATABASE_URL || 
+    process.env.DATABASE_URL === 'your_supabase_database_url' || 
+    process.env.DATABASE_URL.includes('[YOUR-PASSWORD]')) {
   
-  console.warn('NEXT_PUBLIC_DATABASE_URL is not properly configured. Using mock database for demo purposes.');
+  console.warn('DATABASE_URL is not properly configured. Using mock database for demo purposes.');
   
   // Create a mock database object for demo purposes
   db = {
@@ -60,7 +60,7 @@ if (!process.env.NEXT_PUBLIC_DATABASE_URL ||
   
   isDbConfigured = () => false;
 } else {
-  const client = postgres(process.env.NEXT_PUBLIC_DATABASE_URL);
+  const client = postgres(process.env.DATABASE_URL);
   db = drizzle(client, { schema });
   isDbConfigured = () => true;
 }
