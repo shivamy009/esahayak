@@ -7,7 +7,7 @@ export class BuyerService {
   static async createBuyer(data: Omit<NewBuyer, 'id' | 'createdAt' | 'updatedAt' | 'ownerId'>, userId: string) {
     try {
       // Return mock data if database is not configured
-      if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('[YOUR-PASSWORD]')) {
+      if (!process.env.NEXT_PUBLIC_DATABASE_URL || process.env.NEXT_PUBLIC_DATABASE_URL.includes('[YOUR-PASSWORD]')) {
         return {
           id: 'demo-buyer-' + Date.now(),
           ...data,
@@ -41,7 +41,7 @@ export class BuyerService {
       const offset = (page - 1) * pageSize;
 
       // Return mock data if database is not configured
-      if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('[YOUR-PASSWORD]')) {
+      if (!process.env.NEXT_PUBLIC_DATABASE_URL || process.env.NEXT_PUBLIC_DATABASE_URL.includes('[YOUR-PASSWORD]')) {
         return {
           buyers: [{
             id: 'demo-buyer-1',

@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
   } catch (error: any) {
     console.error('Error fetching buyers:', error);
     
-    if (error.message?.includes('DATABASE_URL')) {
+    if (error.message?.includes('NEXT_PUBLIC_DATABASE_URL')) {
       return NextResponse.json({ 
         error: 'Database not configured. Please check your environment variables.' 
       }, { status: 503 });
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('Error creating buyer:', error);
     
-    if (error.message?.includes('DATABASE_URL')) {
+    if (error.message?.includes('NEXT_PUBLIC_DATABASE_URL')) {
       return NextResponse.json({ 
         error: 'Database not configured. Please check your environment variables.' 
       }, { status: 503 });

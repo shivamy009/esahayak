@@ -4,7 +4,7 @@ import postgres from 'postgres';
 import { users } from './lib/db/schema';
 import { eq } from 'drizzle-orm';
 
-const connectionString = process.env.DATABASE_URL!;
+const connectionString = process.env.NEXT_PUBLIC_DATABASE_URL!;
 const client = postgres(connectionString);
 const db = drizzle(client, { schema: { users } });
 
