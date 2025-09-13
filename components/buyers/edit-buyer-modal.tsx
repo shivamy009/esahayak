@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { X, Save, Loader2 } from 'lucide-react';
 import { updateBuyerSchema } from '@/lib/validations/buyer';
 import type { Buyer } from '@/lib/db/schema';
+import toast from 'react-hot-toast';
 
 interface EditBuyerModalProps {
   buyer: Buyer;
@@ -68,6 +69,7 @@ export function EditBuyerModal({ buyer, isOpen, onClose, onSuccess }: EditBuyerM
       const result = await response.json();
 
       if (response.ok) {
+        toast.success('Buyer updated successfully!');
         onSuccess();
         onClose();
       } else {
@@ -77,7 +79,9 @@ export function EditBuyerModal({ buyer, isOpen, onClose, onSuccess }: EditBuyerM
             newErrors[error.path[0]] = error.message;
           });
           setErrors(newErrors);
+          toast.error('Please fix the form errors and try again.');
         } else {
+          toast.error(result.error || 'Something went wrong');
           setErrors({ general: result.error || 'Something went wrong' });
         }
       }
@@ -90,9 +94,12 @@ export function EditBuyerModal({ buyer, isOpen, onClose, onSuccess }: EditBuyerM
           newErrors[fieldName] = err.message;
         });
         setErrors(newErrors);
+        toast.error('Please fix the form errors and try again.');
       } else if (error.message) {
+        toast.error(error.message);
         setErrors({ general: error.message });
       } else {
+        toast.error('Validation failed. Please check your input.');
         setErrors({ general: 'Validation failed. Please check your input.' });
       }
     } finally {

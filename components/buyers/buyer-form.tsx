@@ -10,6 +10,7 @@ import { Select } from '@/components/ui/select';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
 import { createBuyerSchema, type CreateBuyerData } from '@/lib/validations/buyer';
+import toast from 'react-hot-toast';
 
 interface BuyerFormProps {
   initialData?: Partial<CreateBuyerData>;
@@ -92,10 +93,11 @@ export function BuyerForm({ initialData, buyerId, mode = 'create' }: BuyerFormPr
       const result = await response.json();
 
       if (response.ok) {
+        toast.success(mode === 'edit' ? 'Buyer updated successfully!' : 'Buyer created successfully!');
         router.push('/buyers');
       } else {
         if (response.status === 409) {
-          alert('This record has been modified by another user. Please refresh and try again.');
+          toast.error('This record has been modified by another user. Please refresh and try again.');
           return;
         }
         
@@ -107,8 +109,9 @@ export function BuyerForm({ initialData, buyerId, mode = 'create' }: BuyerFormPr
             }
           });
           setErrors(fieldErrors);
+          toast.error('Please fix the form errors and try again.');
         } else {
-          alert(result.error || 'Failed to save buyer');
+          toast.error(result.error || 'Failed to save buyer');
         }
       }
     } catch (error: any) {
@@ -120,8 +123,9 @@ export function BuyerForm({ initialData, buyerId, mode = 'create' }: BuyerFormPr
           }
         });
         setErrors(fieldErrors);
+        toast.error('Please fix the form errors and try again.');
       } else {
-        alert('Failed to save buyer');
+        toast.error('Failed to save buyer');
       }
     } finally {
       setLoading(false);

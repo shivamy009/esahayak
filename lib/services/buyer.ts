@@ -225,8 +225,8 @@ export class BuyerService {
       }
     }
 
+    // Simply delete the buyer - history entries will be cascaded due to foreign key constraint
     await db.delete(buyers).where(eq(buyers.id, id));
-    await this.createHistoryEntry(id, userId, { action: 'deleted', data: existingBuyer });
   }
 
   static async getBuyerHistory(buyerId: string, limit = 5) {

@@ -7,6 +7,7 @@ import { Select } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus, X } from 'lucide-react';
 import { createBuyerSchema } from '@/lib/validations/buyer';
+import toast from 'react-hot-toast';
 
 interface QuickAddFormProps {
   onSuccess?: () => void;
@@ -47,6 +48,7 @@ export function QuickAddForm({ onSuccess }: QuickAddFormProps) {
       const result = await response.json();
 
       if (response.ok) {
+        toast.success('Buyer added successfully!');
         // Reset form
         setFormData({
           fullName: '',
@@ -67,7 +69,9 @@ export function QuickAddForm({ onSuccess }: QuickAddFormProps) {
             newErrors[error.path[0]] = error.message;
           });
           setErrors(newErrors);
+          toast.error('Please fix the form errors and try again.');
         } else {
+          toast.error(result.error || 'Something went wrong');
           setErrors({ general: result.error || 'Something went wrong' });
         }
       }
@@ -78,7 +82,9 @@ export function QuickAddForm({ onSuccess }: QuickAddFormProps) {
           newErrors[err.path[0]] = err.message;
         });
         setErrors(newErrors);
+        toast.error('Please fix the form errors and try again.');
       } else {
+        toast.error('Validation failed');
         setErrors({ general: 'Validation failed' });
       }
     } finally {

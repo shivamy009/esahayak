@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Trash2, X, Loader2 } from 'lucide-react';
 import type { Buyer } from '@/lib/db/schema';
+import toast from 'react-hot-toast';
 
 interface DeleteBuyerModalProps {
   buyer: Buyer;
@@ -30,17 +31,28 @@ export function DeleteBuyerModal({ buyer, isOpen, onClose, onSuccess }: DeleteBu
       });
 
       if (response.ok) {
+        toast.success('Buyer deleted successfully!');
         // Small delay to ensure server processes the deletion
         setTimeout(() => {
           onSuccess();
         }, 100);
       } else {
-        const result = await response.json();
+        // Try to parse JSON response, but handle cases where it might not be JSON
+        let result;
+        try {
+          result = await response.json();
+        } catch (parseError) {
+          console.error('Failed to parse response as JSON:', parseError);
+          result = { error: 'Server error occurred' };
+        }
+        
+        toast.error(result.error || 'Failed to delete buyer');
         setError(result.error || 'Failed to delete buyer');
         setLoading(false);
       }
     } catch (error: any) {
       console.error('Delete error:', error);
+      toast.error('Network error. Please try again.');
       setError('Network error. Please try again.');
       setLoading(false);
     }

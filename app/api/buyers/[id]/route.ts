@@ -5,15 +5,16 @@ import { updateBuyerSchema } from '@/lib/validations/buyer';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const buyer = await BuyerService.getBuyerById(params.id);
+    const buyer = await BuyerService.getBuyerById(id);
     
     if (!buyer) {
       return NextResponse.json({ error: 'Buyer not found' }, { status: 404 });
@@ -28,9 +29,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -46,7 +48,7 @@ export async function PUT(
     const userId = session.user.email === 'demo@example.com' 
       ? '00000000-0000-0000-0000-000000000001' 
       : session.user.email;
-    const buyer = await BuyerService.updateBuyer(params.id, updateData, userId, updatedAt);
+    const buyer = await BuyerService.updateBuyer(id, updateData, userId, updatedAt);
     return NextResponse.json(buyer);
   } catch (error: any) {
     console.error('Error updating buyer:', error);
@@ -69,9 +71,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -80,7 +83,7 @@ export async function DELETE(
     const userId = session.user.email === 'demo@example.com' 
       ? '00000000-0000-0000-0000-000000000001' 
       : session.user.email;
-    await BuyerService.deleteBuyer(params.id, userId);
+    await BuyerService.deleteBuyer(id, userId);
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error('Error deleting buyer:', error);
