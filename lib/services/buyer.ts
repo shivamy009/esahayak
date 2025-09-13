@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { buyers, buyerHistory, users, type Buyer, type NewBuyer, type BuyerHistory } from '@/lib/db/schema';
+import { buyers, buyerHistory, type Buyer, type NewBuyer, type BuyerHistory } from '@/lib/db/schema';
 import { eq, and, or, ilike, desc, asc, count } from 'drizzle-orm';
 import { type BuyerFilters } from '@/lib/validations/buyer';
 
@@ -121,9 +121,8 @@ export class BuyerService {
       ownerId: buyers.ownerId,
       createdAt: buyers.createdAt,
       updatedAt: buyers.updatedAt,
-      ownerName: users.name,
+      ownerName: buyers.ownerId, // Use ownerId as ownerName for now
     }).from(buyers)
-      .leftJoin(users, eq(buyers.ownerId, users.id))
       .where(conditions.length > 0 ? and(...conditions) : undefined);
 
     // Sorting
@@ -131,12 +130,10 @@ export class BuyerService {
                      filters.sortBy === 'createdAt' ? buyers.createdAt : buyers.updatedAt;
     const sortOrder = filters.sortOrder === 'asc' ? asc(sortField) : desc(sortField);
 
-    console.log('Executing database query...');
     const results = await query
       .orderBy(sortOrder)
       .limit(pageSize)
       .offset(offset);
-    console.log('Database query completed, got results:', results.length);
 
     // Get total count
     const [{ totalCount }] = await db.select({ totalCount: count() })
@@ -150,13 +147,6 @@ export class BuyerService {
       currentPage: page,
     };
     } catch (error: any) {
-      console.error('Error in getBuyers:', {
-        message: error.message,
-        name: error.name,
-        stack: error.stack?.split('\n').slice(0, 3),
-        code: error.code
-      });
-      
       if (error.message?.includes('relation') || error.message?.includes('does not exist')) {
         throw new Error('Database tables not found. Please run database migrations first.');
       }
@@ -167,15 +157,6 @@ export class BuyerService {
   static async getBuyerById(id: string, userId?: string) {
     const buyer = await db.query.buyers.findFirst({
       where: eq(buyers.id, id),
-      with: {
-        owner: {
-          columns: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
-      },
     });
 
     return buyer;
@@ -195,15 +176,9 @@ export class BuyerService {
       throw new Error('Record has been modified by another user. Please refresh and try again.');
     }
 
-    // Check ownership
+    // Check ownership (simplified - only allow users to edit their own buyers)
     if (existingBuyer.ownerId !== userId) {
-      // Check if user is admin
-      const user = await db.query.users.findFirst({
-        where: eq(users.id, userId),
-      });
-      if (user?.role !== 'admin') {
-        throw new Error('You can only edit your own buyers');
-      }
+      throw new Error('You can only edit your own buyers');
     }
 
     const [updatedBuyer] = await db.update(buyers)
@@ -229,14 +204,9 @@ export class BuyerService {
       throw new Error('Buyer not found');
     }
 
-    // Check ownership
+    // Check ownership (simplified - only allow users to delete their own buyers)
     if (existingBuyer.ownerId !== userId) {
-      const user = await db.query.users.findFirst({
-        where: eq(users.id, userId),
-      });
-      if (user?.role !== 'admin') {
-        throw new Error('You can only delete your own buyers');
-      }
+      throw new Error('You can only delete your own buyers');
     }
 
     // Simply delete the buyer - history entries will be cascaded due to foreign key constraint

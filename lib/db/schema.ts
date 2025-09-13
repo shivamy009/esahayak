@@ -10,16 +10,6 @@ export const timelineEnum = pgEnum('timeline', ['0-3m', '3-6m', '>6m', 'Explorin
 export const sourceEnum = pgEnum('source', ['Website', 'Referral', 'Walk-in', 'Call', 'Other']);
 export const statusEnum = pgEnum('status', ['New', 'Qualified', 'Contacted', 'Visited', 'Negotiation', 'Converted', 'Dropped']);
 
-// Users table for authentication
-export const users = pgTable('users', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  email: varchar('email', { length: 255 }).notNull().unique(),
-  name: varchar('name', { length: 255 }),
-  role: varchar('role', { length: 50 }).default('user'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-});
-
 // Buyers table
 export const buyers = pgTable('buyers', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -37,7 +27,7 @@ export const buyers = pgTable('buyers', {
   status: statusEnum('status').default('New').notNull(),
   notes: text('notes'),
   tags: json('tags').$type<string[]>().default([]),
-  ownerId: uuid('owner_id').notNull().references(() => users.id),
+  ownerId: varchar('owner_id', { length: 255 }).notNull(), // Store email or user identifier
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -46,22 +36,13 @@ export const buyers = pgTable('buyers', {
 export const buyerHistory = pgTable('buyer_history', {
   id: uuid('id').primaryKey().defaultRandom(),
   buyerId: uuid('buyer_id').notNull().references(() => buyers.id, { onDelete: 'cascade' }),
-  changedBy: uuid('changed_by').notNull().references(() => users.id),
+  changedBy: varchar('changed_by', { length: 255 }).notNull(), // Store email or user identifier
   changedAt: timestamp('changed_at').defaultNow().notNull(),
   diff: json('diff').notNull(),
 });
 
 // Relations
-export const usersRelations = relations(users, ({ many }) => ({
-  buyers: many(buyers),
-  buyerHistory: many(buyerHistory),
-}));
-
-export const buyersRelations = relations(buyers, ({ one, many }) => ({
-  owner: one(users, {
-    fields: [buyers.ownerId],
-    references: [users.id],
-  }),
+export const buyersRelations = relations(buyers, ({ many }) => ({
   history: many(buyerHistory),
 }));
 
@@ -70,15 +51,9 @@ export const buyerHistoryRelations = relations(buyerHistory, ({ one }) => ({
     fields: [buyerHistory.buyerId],
     references: [buyers.id],
   }),
-  changedByUser: one(users, {
-    fields: [buyerHistory.changedBy],
-    references: [users.id],
-  }),
 }));
 
 // Types
-export type User = typeof users.$inferSelect;
-export type NewUser = typeof users.$inferInsert;
 export type Buyer = typeof buyers.$inferSelect;
 export type NewBuyer = typeof buyers.$inferInsert;
 export type BuyerHistory = typeof buyerHistory.$inferSelect;
