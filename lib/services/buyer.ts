@@ -36,12 +36,15 @@ export class BuyerService {
 
   static async getBuyers(filters: BuyerFilters, userId?: string) {
     try {
+      console.log('getBuyers called with:', { filters, userId, hasDbUrl: !!process.env.NEXT_PUBLIC_DATABASE_URL });
+      
       const page = filters.page || 1;
       const pageSize = 10;
       const offset = (page - 1) * pageSize;
 
       // Return mock data if database is not configured
       if (!process.env.NEXT_PUBLIC_DATABASE_URL || process.env.NEXT_PUBLIC_DATABASE_URL.includes('[YOUR-PASSWORD]')) {
+        console.log('Using mock data - database not configured');
         return {
           buyers: [{
             id: 'demo-buyer-1',
@@ -70,6 +73,8 @@ export class BuyerService {
         };
       }
 
+      console.log('Using real database connection');
+      
     const conditions = [];
 
     // Search
@@ -126,10 +131,12 @@ export class BuyerService {
                      filters.sortBy === 'createdAt' ? buyers.createdAt : buyers.updatedAt;
     const sortOrder = filters.sortOrder === 'asc' ? asc(sortField) : desc(sortField);
 
+    console.log('Executing database query...');
     const results = await query
       .orderBy(sortOrder)
       .limit(pageSize)
       .offset(offset);
+    console.log('Database query completed, got results:', results.length);
 
     // Get total count
     const [{ totalCount }] = await db.select({ totalCount: count() })
@@ -143,6 +150,13 @@ export class BuyerService {
       currentPage: page,
     };
     } catch (error: any) {
+      console.error('Error in getBuyers:', {
+        message: error.message,
+        name: error.name,
+        stack: error.stack?.split('\n').slice(0, 3),
+        code: error.code
+      });
+      
       if (error.message?.includes('relation') || error.message?.includes('does not exist')) {
         throw new Error('Database tables not found. Please run database migrations first.');
       }
