@@ -1,6 +1,6 @@
 # eSahayak - Buyer Management System
 
-A comprehensive buyer management system built with Next.js, Supabase, Drizzle ORM, and NextAuth.js for real estate professionals.
+A comprehensive buyer management system built with Next.js, Railway PostgreSQL, Drizzle ORM, and NextAuth.js for real estate professionals.
 
 ## Features
 
@@ -25,7 +25,7 @@ A comprehensive buyer management system built with Next.js, Supabase, Drizzle OR
 ### Technology Stack
 - **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS
 - **Backend**: Next.js API Routes, Drizzle ORM
-- **Database**: PostgreSQL (Supabase)
+- **Database**: PostgreSQL (Railway)
 - **Authentication**: NextAuth.js
 - **Validation**: Zod
 - **UI Components**: Custom components with Lucide React icons
@@ -34,7 +34,7 @@ A comprehensive buyer management system built with Next.js, Supabase, Drizzle OR
 
 ### Prerequisites
 - Node.js 18+ installed
-- A Supabase account and project
+- A Railway account and PostgreSQL database
 - Git (optional)
 
 ### 1. Environment Setup
@@ -42,10 +42,8 @@ A comprehensive buyer management system built with Next.js, Supabase, Drizzle OR
 Update the `.env` file with your actual values:
 
 ```env
-# Database
-NEXT_PUBLIC_DATABASE_URL=your_supabase_NEXT_PUBLIC_DATABASE_URL
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_NEXT_PUBLIC_SUPABASE_ANON_KEY
+# Database - Railway PostgreSQL
+DATABASE_URL=postgresql://postgres:your_password@maglev.proxy.rlwy.net:port/railway
 
 # Auth
 NEXTAUTH_URL=http://localhost:3000
@@ -63,7 +61,7 @@ First, run the database migration:
 npm run db:push
 ```
 
-This will create all the necessary tables in your Supabase database.
+This will create all the necessary tables in your Railway PostgreSQL database.
 
 ### 3. Install Dependencies (Already Done)
 
@@ -81,15 +79,18 @@ npm run dev
 
 The application will be available at `http://localhost:3000`
 
-## Getting Your Supabase Credentials
+## Getting Your Railway PostgreSQL Credentials
 
-1. Go to [supabase.com](https://supabase.com) and create a new account
-2. Create a new project
-3. Go to Settings > Database
-4. Copy the Connection String (URI format) for `NEXT_PUBLIC_DATABASE_URL`
-5. Go to Settings > API
-6. Copy the Project URL for `NEXT_PUBLIC_SUPABASE_URL`
-7. Copy the anon/public key for `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+1. Go to [railway.app](https://railway.app) and create a new account
+2. Sign in with GitHub
+3. Click "New Project"
+4. Select "Provision PostgreSQL"
+5. Wait for deployment (~30 seconds)
+6. Click on your PostgreSQL service
+7. Go to "Connect" tab
+8. Copy the "Postgres Connection URL" for `DATABASE_URL`
+   - Make sure to use the **external** connection string (with `viaduct.proxy.rlwy.net` or `maglev.proxy.rlwy.net`)
+   - **NOT** the internal one (with `postgres.railway.internal`)
 
 ## Usage Guide
 
@@ -197,8 +198,9 @@ npm run start        # Start production server
 ### Common Issues
 
 1. **Database Connection Errors**
-   - Verify your `NEXT_PUBLIC_DATABASE_URL` is correct
-   - Ensure your Supabase project is active
+   - Verify your `DATABASE_URL` is correct
+   - Ensure you're using the **external** Railway connection string (not internal)
+   - Ensure your Railway PostgreSQL service is active
    - Check if you've run `npm run db:push`
 
 2. **Authentication Issues**

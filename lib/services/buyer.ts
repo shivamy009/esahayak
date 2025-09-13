@@ -36,15 +36,12 @@ export class BuyerService {
 
   static async getBuyers(filters: BuyerFilters, userId?: string) {
     try {
-      console.log('getBuyers called with:', { filters, userId, hasDbUrl: !!process.env.DATABASE_URL });
-      
       const page = filters.page || 1;
       const pageSize = 10;
       const offset = (page - 1) * pageSize;
 
       // Return mock data if database is not configured
       if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('[YOUR-PASSWORD]')) {
-        console.log('Using mock data - database not configured');
         return {
           buyers: [{
             id: 'demo-buyer-1',
@@ -71,8 +68,6 @@ export class BuyerService {
           currentPage: 1
         };
       }
-
-      console.log('Using real database connection');
       
     const conditions = [];
 

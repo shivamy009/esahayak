@@ -8,8 +8,8 @@ export async function GET() {
     const envInfo = {
       nodeEnv: process.env.NODE_ENV,
       hasDbUrl: !!process.env.DATABASE_URL,
-      hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
-      hasSupabaseAnonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      
+      
       hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET,
       hasNextAuthUrl: !!process.env.NEXTAUTH_URL,
       hasDemoEmail: !!process.env.DEMO_EMAIL,

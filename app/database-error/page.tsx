@@ -21,7 +21,7 @@ export default function DatabaseError() {
           <div className="bg-yellow-50 p-4 rounded-lg">
             <h3 className="font-medium text-yellow-800 mb-2">Setup Instructions:</h3>
             <ol className="text-sm text-yellow-700 space-y-1 list-decimal list-inside">
-              <li>Create a Supabase account at <a href="https://supabase.com" className="underline" target="_blank" rel="noopener noreferrer">supabase.com</a></li>
+              <li>Create a Railway account at <a href="https://railway.app" className="underline" target="_blank" rel="noopener noreferrer">railway.app</a></li>
               <li>Create a new project</li>
               <li>Get your database credentials</li>
               <li>Update the <code className="bg-yellow-100 px-1 rounded">.env</code> file with your actual values</li>
@@ -34,8 +34,7 @@ export default function DatabaseError() {
             <h4 className="font-medium text-gray-800 mb-2">Required Environment Variables:</h4>
             <code className="text-xs text-gray-600 block whitespace-pre-wrap">
 {`DATABASE_URL=postgresql://[username]:[password]@[host]:[port]/[database]
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+DATABASE_URL=postgresql://postgres:password@viaduct.proxy.rlwy.net:port/railway
 NEXTAUTH_SECRET=your-secret-key
 NEXTAUTH_URL=http://localhost:3000
 DEMO_EMAIL=demo@example.com`}

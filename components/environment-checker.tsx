@@ -32,10 +32,8 @@ export function EnvironmentChecker() {
   };
 
   const copyEnvTemplate = () => {
-    const template = `# Database
-DATABASE_URL=your_supabase_DATABASE_URL
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const template = `# Database - Railway PostgreSQL
+DATABASE_URL=postgresql://postgres:password@viaduct.proxy.rlwy.net:port/railway
 
 # Auth
 NEXTAUTH_URL=http://localhost:3000
@@ -100,7 +98,7 @@ DEMO_EMAIL=demo@example.com`;
           <h3 className="font-medium text-yellow-800 mb-2">Quick Setup:</h3>
           <ol className="text-sm text-yellow-700 space-y-1 list-decimal list-inside">
             <li>Copy the environment template below to your <code className="bg-yellow-100 px-1 rounded">.env</code> file</li>
-            <li>Replace placeholder values with your actual Supabase credentials</li>
+            <li>Replace placeholder values with your actual Railway PostgreSQL credentials</li>
             <li>Generate a random secret for NEXTAUTH_SECRET: <code className="bg-yellow-100 px-1 rounded">node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"</code></li>
             <li>Run <code className="bg-yellow-100 px-1 rounded">npm run db:push</code></li>
             <li>Restart the development server</li>
@@ -121,10 +119,8 @@ DEMO_EMAIL=demo@example.com`;
             </Button>
           </div>
           <pre className="text-xs text-gray-600 overflow-x-auto">
-{`# Database
-DATABASE_URL=your_supabase_DATABASE_URL
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_NEXT_PUBLIC_SUPABASE_ANON_KEY
+{`# Database - Railway PostgreSQL
+DATABASE_URL=postgresql://postgres:password@viaduct.proxy.rlwy.net:port/railway
 
 # Auth
 NEXTAUTH_URL=http://localhost:3000
@@ -136,12 +132,12 @@ DEMO_EMAIL=demo@example.com`}
         </div>
 
         <div className="bg-blue-50 p-4 rounded-lg">
-          <h4 className="font-medium text-blue-800 mb-2">Getting Supabase Credentials:</h4>
+          <h4 className="font-medium text-blue-800 mb-2">Getting Railway PostgreSQL Credentials:</h4>
           <ol className="text-sm text-blue-700 space-y-1 list-decimal list-inside">
-            <li>Go to <a href="https://supabase.com" className="underline" target="_blank" rel="noopener noreferrer">supabase.com</a> and create an account</li>
-            <li>Create a new project</li>
-            <li>Go to Settings → Database → Connection string (URI format) for DATABASE_URL</li>
-            <li>Go to Settings → API for NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY</li>
+            <li>Go to <a href="https://railway.app" className="underline" target="_blank" rel="noopener noreferrer">railway.app</a> and create an account</li>
+            <li>Click "New Project" → "Provision PostgreSQL"</li>
+            <li>Wait for deployment (~30 seconds)</li>
+            <li>Go to Connect tab → Copy the external connection string for DATABASE_URL</li>
           </ol>
         </div>
       </CardContent>

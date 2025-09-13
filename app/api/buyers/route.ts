@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
       cause: error.cause,
       envVars: {
         hasDbUrl: !!process.env.DATABASE_URL,
-        hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+        
         hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET,
         nodeEnv: process.env.NODE_ENV
       }
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
       cause: error.cause,
       envVars: {
         hasDbUrl: !!process.env.DATABASE_URL,
-        hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+        
         hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET,
         nodeEnv: process.env.NODE_ENV
       }

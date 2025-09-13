@@ -55,7 +55,6 @@ export function EditBuyerModal({ buyer, isOpen, onClose, onSuccess }: EditBuyerM
         notes: formData.notes && formData.notes !== '' ? formData.notes : undefined,
       };
       
-      console.log('Data being validated:', dataToValidate);
       const validatedData = updateBuyerSchema.parse(dataToValidate);
 
       const response = await fetch(`/api/buyers/${buyer.id}`, {
