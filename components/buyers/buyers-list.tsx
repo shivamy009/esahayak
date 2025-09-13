@@ -100,8 +100,14 @@ export const BuyersList = forwardRef<BuyersListRef, {}>((props, ref) => {
   if (loading) {
     return (
       <Card>
-        <CardContent className="p-6">
-          <div className="text-center">Loading buyers...</div>
+        <CardContent className="p-8">
+          <div className="text-center space-y-4">
+            <div className="mx-auto w-8 h-8 border-3 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+            <div>
+              <p className="text-lg font-medium text-gray-900">Loading buyers...</p>
+              <p className="text-sm text-gray-500 mt-1">Please wait while we fetch your buyer data</p>
+            </div>
+          </div>
         </CardContent>
       </Card>
     );
