@@ -63,14 +63,10 @@ if (!process.env.DATABASE_URL ||
   try {
     console.log('Initializing database connection with URL:', process.env.DATABASE_URL?.substring(0, 30) + '...');
     const client = postgres(process.env.DATABASE_URL!, {
-      ssl: { rejectUnauthorized: false }, // Required for hosted PostgreSQL
-      transform: {
-        undefined: null,
-      },
-      types: {
-        bigint: postgres.BigInt,
-      },
-      onnotice: () => {}, // Suppress notices
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+      max: 10, // Connection pool size
+      idle_timeout: 20,
+      connect_timeout: 10,
     });
     db = drizzle(client, { schema });
     isDbConfigured = () => true;
