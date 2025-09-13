@@ -2,19 +2,12 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useRef } from 'react';
-import { BuyersList, type BuyersListRef } from '@/components/buyers/buyers-list';
-import { BuyersFilters } from '@/components/buyers/buyers-filters';
-import { ImportExportActions } from '@/components/buyers/import-export-actions';
-import { QuickAddForm } from '@/components/buyers/quick-add-form';
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
-import Link from 'next/link';
+import { useEffect } from 'react';
+import { BuyersPageClient } from '@/components/buyers/buyers-page-client';
 
 export default function BuyersPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const buyersListRef = useRef<BuyersListRef>(null);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -24,60 +17,19 @@ export default function BuyersPage() {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center space-y-4">
-          <div className="mx-auto w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-          <div>
-            <p className="text-xl font-semibold text-gray-900">Loading eSahayak...</p>
-            <p className="text-gray-600 mt-2">Setting up your buyer management dashboard</p>
-          </div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-xl font-semibold text-gray-900">Loading eSahayak...</p>
+          <p className="text-gray-600 mt-2">Setting up your buyer management dashboard</p>
         </div>
       </div>
     );
   }
 
-  if (status === 'unauthenticated') {
-    return null;
+  if (!session) {
+    return null; // Will redirect via useEffect
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header Section */}
-        <div className="mb-8 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                Buyer Management
-              </h1>
-              <p className="mt-2 text-gray-600">
-                Track and manage your property buyer leads efficiently
-              </p>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-3">
-              <ImportExportActions onImportSuccess={() => buyersListRef.current?.refresh()} />
-              <Link href="/buyers/new">
-                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add New Buyer
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          {/* Quick Add Form */}
-          <QuickAddForm onSuccess={() => buyersListRef.current?.refresh()} />
-          
-          {/* Filters */}
-          <BuyersFilters />
-          
-          {/* Buyers List */}
-          <BuyersList ref={buyersListRef} />
-        </div>
-      </div>
-    </div>
-  );
+  return <BuyersPageClient />;
 }

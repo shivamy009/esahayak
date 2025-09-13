@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  // For now, just allow all requests to pass through
-  // Once NextAuth is working, we can add proper authentication
+  // Let the pages handle their own authentication
+  // This avoids Edge Runtime compatibility issues with NextAuth
   return NextResponse.next();
 }
 

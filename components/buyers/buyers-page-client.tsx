@@ -1,0 +1,54 @@
+'use client';
+
+import { useRef } from 'react';
+import { BuyersList, type BuyersListRef } from '@/components/buyers/buyers-list';
+import { BuyersFilters } from '@/components/buyers/buyers-filters';
+import { ImportExportActions } from '@/components/buyers/import-export-actions';
+import { QuickAddForm } from '@/components/buyers/quick-add-form';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
+import Link from 'next/link';
+
+export function BuyersPageClient() {
+  const buyersListRef = useRef<BuyersListRef>(null);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                Buyer Management
+              </h1>
+              <p className="mt-2 text-gray-600">
+                Track and manage your property buyer leads efficiently
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-3">
+              <ImportExportActions onImportSuccess={() => buyersListRef.current?.refresh()} />
+              <Link href="/buyers/new">
+                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add New Buyer
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          {/* Quick Add Form */}
+          <QuickAddForm onSuccess={() => buyersListRef.current?.refresh()} />
+          
+          {/* Filters */}
+          <BuyersFilters />
+          
+          {/* Buyers List */}
+          <BuyersList ref={buyersListRef} />
+        </div>
+      </div>
+    </div>
+  );
+}

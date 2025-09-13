@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import { NavigationHeader } from "@/components/layout/navigation-header";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
@@ -30,7 +31,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          {children}
+          <NavigationHeader />
+          <main className="min-h-screen bg-gray-50">
+            {children}
+          </main>
           <Toaster 
             position="top-right"
             toastOptions={{
